@@ -1,0 +1,57 @@
+# Arquivos de ambiente
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Arquivos de configuração sensíveis
+config.py
+instance/
+*.cfg
+*.key
+*.pem
+
+# Cache e artefatos de desenvolvimento
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Diretórios de build e distribuição
+build/
+dist/
+*.egg-info/
+*.egg
+*.manifest
+*.spec
+
+# Arquivos de IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Arquivos de banco de dados (SQLite, etc.)
+*.db
+*.sqlite
+*.db-journal
+
+# Logs
+*.log
+logs/
+
+# Arquivos de testes e cobertura
+.coverage
+htmlcov/
+.pytest_cache/
+test-reports/
+
+# Arquivos gerados pelo Flask
+instance/
+.flaskenv
+
+# Arquivos temporários
+*.tmp
+*~
