@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from markupsafe import escape
@@ -43,10 +44,25 @@ def index():
 
     return render_template('index.html', usuarios=usuarios, tipos_usuarios=tipos_usuarios)
 
-@app.route('/turmas')
+@app.route('/turmas', methods=['GET','POST'])
 def turmas():
-    turmas = Turma.query.all()
-    return render_template('turmas.html', turmas=turmas)
+    if request.method == 'GET':
+
+        turmas = Turma.query.all()
+        return render_template('turmas.html', turmas=turmas)
+
+    if request.method == 'POST':
+        ano_atual = datetime.now().year
+        
+        grau = request.form['grau']
+        serie = request.form['serie']
+        ano = ano_atual
+
+        periodo = request.form['periodo']
+
+        print(f'Grau:{grau}, Série: {serie}, Período: {periodo} Ano: {ano}')
+
+        return redirect(url_for('turmas'))
 
 @app.route('/about')
 def about():

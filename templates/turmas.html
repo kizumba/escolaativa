@@ -5,27 +5,27 @@
 <h1>Turmas</h1>
 <hr>
 <h2>Cadastrar nova turma</h2>
-<form method="post" action="">
+<form method="post" action="turmas">
     <div class="mb-3">
         <label class="form-label">Grau</label>
-        <input type="number" min="1" max="9" maxlength="1" step="1" pattern="\d*" name="grau" class="form-control">
+        <input type="number" min="1" max="9" maxlength="1" step="1" pattern="\d*" name="grau" class="form-control" required placeholder="Insira um número de 0 a 9">
     </div>
     <div class="mb-3">
         <label class="form-label">Série</label>
         <input type="text" class="form-control" id="letraUnica" maxlength="1" pattern="[A-Z]"
-            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')" name="serie">
+            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')" name="serie" required placeholder="Insira uma letra de A a Z">
     </div>
     <div class="mb-3">
         <fieldset>
             Selecione o período:<br>
 
-            <input type="radio" id="manha" name="periodo" value="manha">
+            <input type="radio" id="manha" name="periodo" value="Manhã" checked>
             <label for="manha">Manhã</label><br>
 
-            <input type="radio" id="tarde" name="periodo" value="tarde">
+            <input type="radio" id="tarde" name="periodo" value="Tarde">
             <label for="tarde">Tarde</label><br>
 
-            <input type="radio" id="noite" name="periodo" value="noite">
+            <input type="radio" id="noite" name="periodo" value="Noite">
             <label for="noite">Noite</label>
         </fieldset>
     </div>
