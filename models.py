@@ -40,7 +40,7 @@ class Comportamento(db.Model):
     pontos = db.Column(db.Integer, default = 0)
     ativo = db.Column(db.Boolean, default = True)
 
-    def __rep__(self):
+    def __repr__(self):
         return f'{self.nome}'
 
 class Missao(db.Model):
@@ -61,7 +61,7 @@ class Turma(db.Model):
     grau = db.Column(db.String(1))
     serie = db.Column(db.String(1))
     periodo = db.Column(db.String(10))
-    nivel_ensino = db.Column(db.String(30))
+    # nivel_ensino = db.Column(db.String(30))
     ano = db.Column(db.Integer())
 
 
@@ -70,13 +70,13 @@ class Turma(db.Model):
 
 
     def __repr__(self):
-        return f'Turma {self.grau}{self.serie} período da {self.periodo} do {self.nivel_ensino} do ano de {self.ano}.'
+        return f'Turma: {self.grau}{self.serie} período: {self.periodo} ano: {self.ano}'
 
 class Torneio(db.Model):
     __tablename__ = 'torneios'
 
     id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(30))
+    # nome = db.Column(db.String(30))
     bimestre = db.Column(db.String(2))
     premiacao = db.Column(db.String(100))
     data_criacao = db.Column(db.Date)
@@ -86,7 +86,7 @@ class Torneio(db.Model):
     id_turma = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=False)
 
     def __repr__(self):
-        return f'Torneio {self.nome} do bimestre {self.bimestre}'
+        return f'Torneio do {self.bimestre} bimestre, premiação {self.premiacao}'
 
 class Equipe(db.Model):
     __tablename__ = 'equipes'
@@ -100,31 +100,32 @@ class Equipe(db.Model):
     def __repr__(self):
         return f'Equipe {self.nome}'
 
-class Disciplina(db.Model):
-    __tablename__ = 'disciplinas'
+# class Disciplina(db.Model):
+#     __tablename__ = 'disciplinas'
 
-    id = db.Column(db.Integer, primary_key=True)
-    nome = db.Column(db.String(30))
-    descricao = db.Column(db.String(100))
+#     id = db.Column(db.Integer, primary_key=True)
+#     nome = db.Column(db.String(30))
 
-    def __repr__(self):
-        return f'Disciplina {self.nome}'
+#     def __repr__(self):
+#         return f'Disciplina {self.nome}'
 
 
 class Equipe_Comportamento(db.Model):
     __tablename__ = 'equipes_comportamentos'
 
-    id_equipe = db.Column(db.Integer, db.ForeignKey('equipes.id'), primary_key=True)
-    id_comportamento = db.Column(db.Integer, db.ForeignKey('comportamentos.id'), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
 
-    data_criacao = db.Column(db.Date)
-    data_hora = db.Column(db.Time)
+    id_equipe = db.Column(db.Integer, db.ForeignKey('equipes.id'))
+    id_comportamento = db.Column(db.Integer, db.ForeignKey('comportamentos.id'))
+
+    data_criacao = db.Column(db.String(10))
+    data_hora = db.Column(db.String(8))
 
     equipe = db.relationship('Equipe', backref=db.backref('equipe_comportamentos', lazy='dynamic'))
     comportamento = db.relationship('Comportamento', backref=db.backref('comportamento_equipes', lazy='dynamic'))
 
     def __repr__(self):
-        return f'<Equipe_Comportamento {self.id_equipe}-{self.id_comportamento}>'
+        return f'{self.equipe.nome} {self.comportamento.nome}>'
 
 class Equipe_Missao(db.Model):
     __tablename__ = 'equipes_missoes'
@@ -132,8 +133,8 @@ class Equipe_Missao(db.Model):
     id_equipe = db.Column(db.Integer, db.ForeignKey('equipes.id'), primary_key=True)
     id_missao = db.Column(db.Integer, db.ForeignKey('missoes.id'), primary_key=True)
 
-    data_criacao = db.Column(db.Date)
-    data_hora = db.Column(db.Time)
+    data_criacao = db.Column(db.String(10))
+    data_hora = db.Column(db.String(8))
 
     concluida = db.Column(db.Boolean, default = False)
 
@@ -145,12 +146,12 @@ class Equipe_Missao(db.Model):
 
 ensina = db.Table('ensinam',
     db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
-    db.Column('id_turma', db.Integer, db.ForeignKey('turmas.id'), primary_key=True),
-    db.Column('id_disciplina', db.Integer, db.ForeignKey('disciplinas.id'), primary_key=True)
+    db.Column('id_turma', db.Integer, db.ForeignKey('turmas.id'), primary_key=True)
+    # db.Column('id_disciplina', db.Integer, db.ForeignKey('disciplinas.id'), primary_key=True)
 )
 
 disputa = db.Table('disputas',
     db.Column('id_equipe', db.Integer, db.ForeignKey('equipes.id'), primary_key=True),
-    db.Column('id_torneio', db.Integer, db.ForeignKey('torneios.id'), primary_key=True),
+    db.Column('id_torneio', db.Integer, db.ForeignKey('torneios.id'), primary_key=True)
 )
 

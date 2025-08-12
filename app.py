@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from markupsafe import escape
 from db import db
-from models import Usuario, TipoUsuario
+from models import *
 import hashlib
 
 #=============================
@@ -34,6 +34,8 @@ def hash(txt):
 
 @app.route('/')
 def index():
+    print(hash('123'))
+
     usuarios = Usuario.query.all() 
     tipos_usuarios = TipoUsuario.query.all()
 
@@ -90,14 +92,25 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-# Essa rota só pode ser acessada por usuário logado
+
 @app.route('/teste')
 @login_required
 def teste():
-    nome = current_user.nome
+    
+
     usuarios = Usuario.query.all()
-    # professor = Usuario.query.filter_by(id_tipo_usuario = 2).all()
-    return render_template('auth/teste.html',nome=nome, usuarios=usuarios)
+    tipos_usuarios = TipoUsuario.query.all()
+    # disciplinas = Disciplina.query.all()
+    comportamentos = Comportamento.query.all()
+    missoes = Missao.query.all()
+    turmas = Turma.query.all()
+    torneios = Torneio.query.all()
+    equipes_comportamentos = Equipe_Comportamento.query.all()
+    
+    escola = (tipos_usuarios,usuarios,comportamentos, missoes,turmas, torneios, equipes_comportamentos)
+
+
+    return render_template('auth/teste.html',escola=escola)
 
 @app.route('/teste/<nome>')
 def teste2(nome):

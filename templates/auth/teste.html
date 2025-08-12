@@ -3,6 +3,8 @@
 {% block conteudo %}
 
 <H1>Test page</H1>
-<p>{{nome}}</p>
-<p>{{usuarios}}</p>
+{% for item in escola %}
+    <p>{{item}}</p>
+{% endfor %}
+
 {% endblock %}
