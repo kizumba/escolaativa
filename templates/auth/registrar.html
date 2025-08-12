@@ -1,13 +1,28 @@
 {% extends 'base.html' %}
 
 {% block conteudo %}
-  
-  <h1>Registrar page</h1>
+<div style="text-align: center">
+  <h1>Registrar Usuário</h1>
 
   <form action="" method="post">
-    Nome: <input type="text" name="nomeForm" id=""><br>
-    Senha: <input type="password" name="senhaForm" id=""><br>
+    Nome: <input type="text" name="nomeForm" id="" required><br>
+    Telefone: <input type="text" name="telefoneForm" required id=""><br>
+    Email: <input type="text" name="emailForm" id="" required><br>
+    Senha: <input type="password" name="senhaForm" id="" required><br>
+
+    <hr>
+    <h3>Selecione qual o tipo de usuário</h3>
+    <select class="custom-select" id="inputGroupSelect02" name="tipo_usuarioSelect" required>
+      <!-- <option selected>Selecione o tipo de usuário</option> -->
+      {% for tipo_usuario in tipos_usuarios %}
+        <option value="{{tipo_usuario.id}}">{{tipo_usuario.nome}}</option>
+      {% endfor %}
+
+    </select><br>
+    <hr>
+
     <input type="submit" value="Cadastrar">
   </form>
+</div>
 
 {% endblock %}

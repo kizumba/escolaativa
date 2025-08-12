@@ -4,4 +4,19 @@
 
 <H1>Escola Ativa</H1>
 
+<ul class="list-group">
+    {% for usuario in usuarios %}
+        <li class="list-group-item">Nome: {{usuario.nome}}</li>
+        <li class="list-group-item">Telefone: {{usuario.telefone}}</li>
+        <li class="list-group-item">Email: {{usuario.email}}</li>
+        <li class="list-group-item">Ativo: {{usuario.ativo}}</li>
+        {% for tipo_usuario in tipos_usuarios %}
+            {% if usuario.id_tipo_usuario == tipo_usuario.id %}
+                <li class="list-group-item">Tipo: {{tipo_usuario.nome}}</li>        
+            {% endif %}
+        {% endfor %}
+        <hr>
+    {% endfor %}
+</ul>
+
 {% endblock %}
