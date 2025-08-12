@@ -11,3 +11,6 @@
 * source venv/bin/activate
 * pip install -r requirements.txt
 * python3 app.py
+
+# Testar aplicação
+Usuário adm senha 123.

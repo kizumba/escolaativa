@@ -34,7 +34,6 @@ def hash(txt):
 
 @app.route('/')
 def index():
-    print(hash('123'))
     usuarios = Usuario.query.all() 
     tipos_usuarios = TipoUsuario.query.all()
 
@@ -96,9 +95,9 @@ def logout():
 @login_required
 def teste():
     nome = current_user.nome
-    adm = Usuario.query.filter_by(id_tipo_usuario = 1).all()
-    professor = Usuario.query.filter_by(id_tipo_usuario = 2).all()
-    return render_template('auth/teste.html',nome=nome, adm=adm, professor=professor)
+    usuarios = Usuario.query.all()
+    # professor = Usuario.query.filter_by(id_tipo_usuario = 2).all()
+    return render_template('auth/teste.html',nome=nome, usuarios=usuarios)
 
 @app.route('/teste/<nome>')
 def teste2(nome):
