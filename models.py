@@ -98,7 +98,7 @@ class Equipe(db.Model):
     id_turma = db.Column(db.Integer, db.ForeignKey('turmas.id'), nullable=False)
 
     def __repr__(self):
-        return f'Equipe {self.nome}'
+        return f'Equipe: {self.nome}'
 
 # class Disciplina(db.Model):
 #     __tablename__ = 'disciplinas'
@@ -125,7 +125,7 @@ class Equipe_Comportamento(db.Model):
     comportamento = db.relationship('Comportamento', backref=db.backref('comportamento_equipes', lazy='dynamic'))
 
     def __repr__(self):
-        return f'{self.equipe.nome} {self.comportamento.nome}>'
+        return f'Equipe {self.equipe.nome} - Comportamento {self.comportamento.nome}'
 
 class Equipe_Missao(db.Model):
     __tablename__ = 'equipes_missoes'
@@ -142,16 +142,16 @@ class Equipe_Missao(db.Model):
     missao = db.relationship('Missao', backref=db.backref('missao_equipes', lazy='dynamic'))
 
     def __repr__(self):
-        return f'<Equipe_Missao {self.id_equipe}-{self.id_missao} - Concluída: {self.concluida}>'
+        return f'{self.equipe} Missão: {self.missao} - Concluída: {self.concluida}'
 
 ensina = db.Table('ensinam',
-    db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id'), primary_key=True),
-    db.Column('id_turma', db.Integer, db.ForeignKey('turmas.id'), primary_key=True)
+    db.Column('id_usuario', db.Integer, db.ForeignKey('usuarios.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('id_turma', db.Integer, db.ForeignKey('turmas.id', ondelete='CASCADE'), primary_key=True)
     # db.Column('id_disciplina', db.Integer, db.ForeignKey('disciplinas.id'), primary_key=True)
 )
 
 disputa = db.Table('disputas',
-    db.Column('id_equipe', db.Integer, db.ForeignKey('equipes.id'), primary_key=True),
-    db.Column('id_torneio', db.Integer, db.ForeignKey('torneios.id'), primary_key=True)
+    db.Column('id_equipe', db.Integer, db.ForeignKey('equipes.id', ondelete='CASCADE'), primary_key=True),
+    db.Column('id_torneio', db.Integer, db.ForeignKey('torneios.id', ondelete='CASCADE'), primary_key=True)
 )
 

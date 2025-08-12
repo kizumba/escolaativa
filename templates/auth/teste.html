@@ -2,8 +2,13 @@
 
 {% block conteudo %}
 
-<H1>Test page</H1>
+<H1>Testando a integridade das tabelas</H1>
 {% for item in escola %}
+    <p>{{item}}</p>
+{% endfor %}
+
+<h1>Testando algumas relações do BD</h1>
+{% for item in testes_relacionais %}
     <p>{{item}}</p>
 {% endfor %}
 

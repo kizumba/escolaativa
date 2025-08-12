@@ -5,6 +5,8 @@ from db import db
 from models import *
 import hashlib
 
+from funcoes_bd import nova_disputa, consultar_disputas, consultar_ensino, novo_ensino
+
 #=============================
 # CONFIGURAÇÕES DA APLICAÇÃO =
 #=============================
@@ -41,6 +43,10 @@ def index():
 
     return render_template('index.html', usuarios=usuarios, tipos_usuarios=tipos_usuarios)
 
+@app.route('/turmas')
+def turmas():
+    turmas = Turma.query.all()
+    return render_template('turmas.html', turmas=turmas)
 
 @app.route('/about')
 def about():
@@ -106,11 +112,23 @@ def teste():
     turmas = Turma.query.all()
     torneios = Torneio.query.all()
     equipes_comportamentos = Equipe_Comportamento.query.all()
+    equipes_missoes = Equipe_Missao.query.all()
     
-    escola = (tipos_usuarios,usuarios,comportamentos, missoes,turmas, torneios, equipes_comportamentos)
+    escola = (tipos_usuarios,usuarios,comportamentos, missoes,turmas, torneios, equipes_comportamentos, equipes_missoes)
+
+    try: 
+        novo_ensino(3,3)
+    except:
+        print("Erro ao inserir novo ensino")
+
+    ensinar = consultar_ensino()
+    disputas = consultar_disputas()
+
+    testes_relacionais = (ensinar, disputas)
 
 
-    return render_template('auth/teste.html',escola=escola)
+
+    return render_template('auth/teste.html',escola=escola, testes_relacionais=testes_relacionais)
 
 @app.route('/teste/<nome>')
 def teste2(nome):

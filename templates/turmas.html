@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Turmas</h1>
+<hr>
+<h2>Cadastrar nova turma</h2>
+<form method="post" action="">
+    <div class="mb-3">
+        <label class="form-label">Grau</label>
+        <input type="number" min="1" max="9" maxlength="1" step="1" pattern="\d*" name="grau" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Série</label>
+        <input type="text" class="form-control" id="letraUnica" maxlength="1" pattern="[A-Z]"
+            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')" name="serie">
+    </div>
+    <div class="mb-3">
+        <fieldset>
+            Selecione o período:<br>
+
+            <input type="radio" id="manha" name="periodo" value="manha">
+            <label for="manha">Manhã</label><br>
+
+            <input type="radio" id="tarde" name="periodo" value="tarde">
+            <label for="tarde">Tarde</label><br>
+
+            <input type="radio" id="noite" name="periodo" value="noite">
+            <label for="noite">Noite</label>
+        </fieldset>
+    </div>
+    <button type="submit" class="btn btn-primary">Enviar</button>
+</form>
+<hr>
+<h2>Lista de turmas</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Grau</th>
+            <th scope="col">Série</th>
+            <th scope="col">Período</th>
+            <th scope="col">Ano</th>
+            <th scope="col">Identificação</th>
+            <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for turma in turmas %}
+        <tr>
+            <th scope="row">{{turma.id}}</th>
+            <td>{{turma.grau}}</td>
+            <td>{{turma.serie}}</td>
+            <td>{{turma.periodo}}</td>
+            <td>{{turma.ano}}</td>
+            <td>{{turma.grau}}{{turma.serie}} </td>
+            <td><a href="#">Editar</a> - <a href="#">Apagar</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
+{% endblock %}
