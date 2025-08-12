@@ -120,8 +120,8 @@ class Equipe_Comportamento(db.Model):
     data_criacao = db.Column(db.Date)
     data_hora = db.Column(db.Time)
 
-    equipe = db.relationship('Equipe', backref=db.backref('equipes_associadas', lazy='dynamic'))
-    comportamento = db.relationship('Comportamento', backref=db.backref('comportamentos_associados', lazy='dynamic'))
+    equipe = db.relationship('Equipe', backref=db.backref('equipe_comportamentos', lazy='dynamic'))
+    comportamento = db.relationship('Comportamento', backref=db.backref('comportamento_equipes', lazy='dynamic'))
 
     def __repr__(self):
         return f'<Equipe_Comportamento {self.id_equipe}-{self.id_comportamento}>'
@@ -137,8 +137,8 @@ class Equipe_Missao(db.Model):
 
     concluida = db.Column(db.Boolean, default = False)
 
-    equipe = db.relationship('Equipe', backref=db.backref('equipes_associadas', lazy='dynamic'))
-    comportamento = db.relationship('Comportamento', backref=db.backref('missoes_associadas', lazy='dynamic'))
+    equipe = db.relationship('Equipe', backref=db.backref('equipe_missoes', lazy='dynamic'))
+    missao = db.relationship('Missao', backref=db.backref('missao_equipes', lazy='dynamic'))
 
     def __repr__(self):
         return f'<Equipe_Missao {self.id_equipe}-{self.id_missao} - Concluída: {self.concluida}>'

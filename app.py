@@ -34,7 +34,7 @@ def hash(txt):
 
 @app.route('/')
 def index():
-
+    print(hash('123'))
     usuarios = Usuario.query.all() 
     tipos_usuarios = TipoUsuario.query.all()
 
