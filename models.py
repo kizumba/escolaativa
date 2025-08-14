@@ -11,6 +11,10 @@ class TipoUsuario(db.Model):
 
     usuarios = db.relationship('Usuario', backref='tipo_usuario', lazy=True, cascade='all, delete-orphan')
 
+    # def __init__(self, nome, descricao):  
+    #     self.nome = nome
+    #     self.descricao = descricao
+
     def __repr__(self):
         return f'{self.nome}'
 

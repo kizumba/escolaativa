@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Editar Tipo de Usuário #{{tipo_usuario.id}} - {{tipo_usuario.nome}}</h1>
+<hr>
+<form method="post" action="">    
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" id="" name="nome" value="{{tipo_usuario.nome}}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <input type="text" class="form-control" id="" name="descricao" value="{{tipo_usuario.descricao}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+</form>
+<hr>
+{% endblock %}

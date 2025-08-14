@@ -31,7 +31,7 @@
             <label for="noite">Noite</label>
         </fieldset>
     </div>
-    <button type="submit" class="btn btn-primary">Enviar</button>
+    <button type="submit" class="btn btn-primary">Criar nova turma</button>
 </form>
 <hr>
 <h2>Lista de turmas do Professor: {{current_user.nome}}</h2>
@@ -55,7 +55,7 @@
             <td>{{turma.serie}}</td>
             <td>{{turma.periodo}}</td>
             <td>{{turma.ano}}</td>
-            <td>{{turma.grau}}{{turma.serie}} </td>
+            <td>{{turma.grau}}{{turma.serie}}-{{turma.periodo}}-{{turma.ano}}</td>
             <td><a href="{{ url_for('turma_editar', id=turma.id) }}" class="btn btn-primary">Editar</a> - 
                 <a href="{{ url_for('turma_apagar', id=turma.id) }}" class="btn btn-danger">Apagar</a>
             </td>

@@ -20,13 +20,11 @@
       <!-- <option selected>Selecione o tipo de usuário</option> -->
       {% for tipo_usuario in tipos_usuarios %}
         <option value="{{tipo_usuario.id}}">{{tipo_usuario.nome}}</option>
-      {% endfor %}
-
+      {% endfor %}  
     </select>
+    
     <hr>
-
-    <input type="submit" class="btn btn-primary" value="Cadastrar">
+    <input type="submit" class="btn btn-primary" value="Cadastrar Usuário">
   </form>
-</div>
 
 {% endblock %}

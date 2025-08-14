@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Registrar Tipo de Usuário</h1>
+<hr>
+<form method="post" action="tipos_usuarios">    
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" id="letraUnica" name="nome" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <input type="text" class="form-control" id="letraUnica" name="descricao" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar novo tipo de usuário</button>
+</form>
+<hr>
+<h2>Lista de tipos de usuários:</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tipo in tipos_usuarios %}
+        <tr>
+            <th scope="row">{{tipo.id}}</th>
+            <td>{{tipo.nome}}</td>
+            <td>{{tipo.descricao}}</td>
+            <td><a href="{{url_for('tipo_usuario_editar', id=tipo.id)}}" class="btn btn-primary">Editar</a> -
+                <a href="#" class="btn btn-danger" onclick="alert('Função não implementada')"><del>Apagar</del></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
+{% endblock %}

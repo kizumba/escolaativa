@@ -41,9 +41,9 @@ def index():
 
     return render_template('index.html', usuarios=usuarios, tipos_usuarios=tipos_usuarios)
 
-#========
-#=TURMAS=
-#========
+#=========
+# TURMAS =
+#=========
 @app.route('/turmas', methods=['GET','POST'])
 def turmas():
     turmas = current_user.ensina_turmas
@@ -100,15 +100,57 @@ def turma_apagar(id):
         db.session.commit()
         return redirect(url_for('turmas'))
 
-#========================
-#=REGISTRAR NOVO USUARIO=
-#========================
+#====================
+# TIPOS DE USUÁRIOS =
+#====================
+@app.route('/tipos_usuarios', methods=['GET','POST'])
+def tipos_usuarios():
+    tipos_usuarios = TipoUsuario.query.all()
+
+    if request.method == 'GET': 
+        return render_template('tipos_usuarios.html',tipos_usuarios=tipos_usuarios)
+    
+    elif request.method == 'POST':
+        nome = request.form['nome']
+        descricao = request.form['descricao']
+
+        tipo_usuario = TipoUsuario(nome=nome, descricao=descricao)
+
+        db.session.add(tipo_usuario)
+        db.session.commit()
+
+        return redirect(url_for('tipos_usuarios'))
+
+@app.route('/tipo_usuario_editar/<int:id>',methods=['GET','POST'])
+def tipo_usuario_editar(id):
+    tipo_usuario = TipoUsuario.query.get(id)
+    print(tipo_usuario.id)
+
+    if request.method == 'GET':
+        return render_template("tipo_usuario_editar.html",tipo_usuario=tipo_usuario)
+    
+    elif request.method == 'POST':
+
+        tipo_usuario.nome = request.form['nome']
+        tipo_usuario.descricao = request.form['descricao']
+
+        db.session.add(tipo_usuario)
+        db.session.commit()
+
+        return redirect(url_for('tipos_usuarios'))
+
+
+
+#=========================
+# REGISTRAR NOVO USUARIO =
+#=========================
 @app.route('/registrar', methods=['GET','POST'])
 def registrar():
     tipos_usuarios = TipoUsuario.query.all()
+    usuarios = Usuario.query.all()
 
     if request.method == 'GET':
-        return render_template('auth/registrar.html',tipos_usuarios=tipos_usuarios)
+        return render_template('auth/registrar.html',tipos_usuarios=tipos_usuarios, usuarios=usuarios)
     elif request.method == 'POST':
         nome = request.form['nomeForm']
         email = request.form['emailForm']
@@ -161,4 +203,41 @@ def teste():
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
+
+        tipo_usuario = TipoUsuario.query.filter_by(nome="Administrador").first()
+        
+        if not tipo_usuario:
+            try:
+                tipo_usuario = TipoUsuario(nome="Administrador", descricao="Responsável pelo sistema")
+                db.session.add(tipo_usuario)
+                db.session.commit()
+                print("Tipo de usuário 'Administrador' criado com sucesso!")
+            except:
+                db.session.rollback()
+                print("Tipo de usuário 'Administrador' já existe (erro capturado)")
+        
+        usuario = Usuario.query.filter_by(nome="Master").first()
+
+        if not usuario:
+            try:
+                usuario = Usuario(
+                    nome='Mestre', 
+                    telefone='11988887777', 
+                    email='mestre@email.com', 
+                    senha=hash('123'), 
+                    ativo=True, 
+                    id_tipo_usuario=1)
+                db.session.add(usuario)
+                db.session.commit()
+                print("Usuário 'Mestre' criado com sucesso!")
+            except:
+                db.session.rollback()
+                print("Usuário 'Mestre' já existe (erro capturado)")
+
+
     app.run(debug=True)
+
+# if __name__ == '__main__':
+#     with app.app_context():
+#         db.create_all()
+#     app.run(debug=True)
