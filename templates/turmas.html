@@ -4,6 +4,8 @@
 
 <h1>Turmas</h1>
 <hr>
+<h2>{{current_user.nome}}</h2>
+<hr>
 <h2>Cadastrar nova turma</h2>
 <form method="post" action="turmas">
     <div class="mb-3">
@@ -32,7 +34,7 @@
     <button type="submit" class="btn btn-primary">Enviar</button>
 </form>
 <hr>
-<h2>Lista de turmas</h2>
+<h2>Lista de turmas do Professor: {{current_user.nome}}</h2>
 <table class="table">
     <thead>
         <tr>

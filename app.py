@@ -35,8 +35,6 @@ def hash(txt):
 
 @app.route('/')
 def index():
-    print('Senha hash')
-    print(hash('123'))
 
     usuarios = Usuario.query.all() 
     tipos_usuarios = TipoUsuario.query.all()
@@ -48,9 +46,9 @@ def index():
 #========
 @app.route('/turmas', methods=['GET','POST'])
 def turmas():
+    turmas = current_user.ensina_turmas
+    
     if request.method == 'GET':
-
-        turmas = Turma.query.all()
         return render_template('turmas.html', turmas=turmas)
 
     if request.method == 'POST':
@@ -62,10 +60,11 @@ def turmas():
 
         periodo = request.form['periodo']
 
-        print(f'Grau:{grau}, Série: {serie}, Período: {periodo} Ano: {ano}')
-
         nova_turma = Turma(grau, serie, periodo, ano)
         db.session.add(nova_turma)
+        db.session.commit()
+
+        current_user.ensina_turmas.append(nova_turma)
         db.session.commit()
 
         return redirect(url_for('turmas'))
@@ -122,7 +121,7 @@ def registrar():
         db.session.add(novo_usuario)
         db.session.commit()
 
-        login_user(novo_usuario)
+        #login_user(novo_usuario)
 
         return redirect(url_for('index'))
 
