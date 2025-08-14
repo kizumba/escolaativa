@@ -68,6 +68,26 @@ def turmas():
 
         return redirect(url_for('turmas'))
 
+@app.route('/turma_editar/<int:id>', methods=['GET','POST'])
+def turma_editar(id):
+    
+    turma = Turma.query.get(id)
+    
+    if request.method == 'GET':
+        return render_template("turma_editar.html",turma=turma)
+    
+    elif request.method == 'POST':
+
+        turma.grau = request.form['grau']
+        turma.serie = request.form['serie']
+        turma.periodo = request.form['periodo']
+
+        db.session.add(turma)
+        db.session.commit()
+
+        return redirect(url_for('turmas'))
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')
