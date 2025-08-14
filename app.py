@@ -35,6 +35,7 @@ def hash(txt):
 
 @app.route('/')
 def index():
+    print('Senha hash')
     print(hash('123'))
 
     usuarios = Usuario.query.all() 
