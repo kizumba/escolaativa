@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Excluir turma {{turma.id}}</h1>
+<form method="post" action="">
+    <div class="mb-3">
+        <label class="form-label">Grau</label>
+        <input type="number" min="1" max="9" maxlength="1" step="1" pattern="\d*" name="grau" class="form-control" required placeholder="Insira um número de 1 a 9" value="{{turma.grau}}" disabled>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Série</label>
+        <input type="text" class="form-control" id="letraUnica" maxlength="1" pattern="[A-Z]"
+            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')" name="serie" required placeholder="Insira uma letra de A a Z" value="{{turma.serie}}" disabled>
+    </div>
+    <div class="mb-3">
+        <fieldset disabled>
+            Selecione o período:<br>
+            
+            <input type="radio" id="manha" name="periodo" value="Manhã" {% if turma.periodo == 'Manhã' %} checked {% endif %}>
+            
+            <label for="manha">Manhã</label><br>
+
+            <input type="radio" id="tarde" name="periodo" value="Tarde" {% if turma.periodo == 'Tarde' %} checked {% endif %}>
+            <label for="tarde">Tarde</label><br>
+
+            <input type="radio" id="noite" name="periodo" value="Noite" {% if turma.periodo == 'Noite' %} checked {% endif %}>
+            <label for="noite">Noite</label>
+        </fieldset>
+    </div>
+    <a href="{{ url_for('turmas') }}" class="btn btn-primary">Voltar</a>
+    <button type="submit" class="btn btn-danger" onclick="confirm('Quer realmente excluir a turma {{turma.grau}}{{turma.serie}}-{{turma.periodo}}?')">Excluir</button>
+</form>
+
+{% endblock %}

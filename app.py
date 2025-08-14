@@ -6,8 +6,6 @@ from db import db
 from models import *
 import hashlib
 
-from funcoes_bd import nova_disputa, consultar_disputas, consultar_ensino, novo_ensino
-
 #=============================
 # CONFIGURAÇÕES DA APLICAÇÃO =
 #=============================
@@ -44,6 +42,9 @@ def index():
 
     return render_template('index.html', usuarios=usuarios, tipos_usuarios=tipos_usuarios)
 
+#========
+#=TURMAS=
+#========
 @app.route('/turmas', methods=['GET','POST'])
 def turmas():
     if request.method == 'GET':
@@ -87,12 +88,21 @@ def turma_editar(id):
 
         return redirect(url_for('turmas'))
 
+@app.route('/turma_apagar/<int:id>',methods=['GET','POST'])
+def turma_apagar(id):
+    turma = Turma.query.get(id)
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+    if request.method == 'GET':
+        return render_template('turma_apagar.html',turma=turma)
+    
+    elif request.method == 'POST':
+        db.session.delete(turma)
+        db.session.commit()
+        return redirect(url_for('turmas'))
 
-
+#========================
+#=REGISTRAR NOVO USUARIO=
+#========================
 @app.route('/registrar', methods=['GET','POST'])
 def registrar():
     tipos_usuarios = TipoUsuario.query.all()
@@ -138,6 +148,9 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route('/teste')
 @login_required
