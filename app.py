@@ -62,6 +62,10 @@ def turmas():
 
         print(f'Grau:{grau}, Série: {serie}, Período: {periodo} Ano: {ano}')
 
+        nova_turma = Turma(grau, serie, periodo, ano)
+        db.session.add(nova_turma)
+        db.session.commit()
+
         return redirect(url_for('turmas'))
 
 @app.route('/about')
@@ -118,38 +122,8 @@ def logout():
 @app.route('/teste')
 @login_required
 def teste():
-    
 
-    usuarios = Usuario.query.all()
-    tipos_usuarios = TipoUsuario.query.all()
-    # disciplinas = Disciplina.query.all()
-    comportamentos = Comportamento.query.all()
-    missoes = Missao.query.all()
-    turmas = Turma.query.all()
-    torneios = Torneio.query.all()
-    equipes_comportamentos = Equipe_Comportamento.query.all()
-    equipes_missoes = Equipe_Missao.query.all()
-    
-    escola = (tipos_usuarios,usuarios,comportamentos, missoes,turmas, torneios, equipes_comportamentos, equipes_missoes)
-
-    try: 
-        novo_ensino(3,3)
-    except:
-        print("Erro ao inserir novo ensino")
-
-    ensinar = consultar_ensino()
-    disputas = consultar_disputas()
-
-    testes_relacionais = (ensinar, disputas)
-
-
-
-    return render_template('auth/teste.html',escola=escola, testes_relacionais=testes_relacionais)
-
-@app.route('/teste/<nome>')
-def teste2(nome):
-    nome = escape(nome)
-    return f"<h1>{nome}</h1>"
+    return render_template('auth/teste.html')
 
 if __name__ == '__main__':
     with app.app_context():
