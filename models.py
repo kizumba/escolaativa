@@ -84,6 +84,7 @@ class Torneio(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     bimestre = db.Column(db.String(2))
+    campea = db.Column(db.String(30), default='')
     premiacao = db.Column(db.String(100))
     data_criacao = db.Column(db.Date)
     data_hora = db.Column(db.Time)

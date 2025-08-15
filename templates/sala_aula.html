@@ -14,6 +14,10 @@
         <label class="form-label">Premiação</label>
         <input class="form-control" type="text" name="premiacao" required>
     </div>
+    <div class="mb-3">
+        <label class="form-label">Campeã</label>
+        <input class="form-control" type="text" name="premiacao" disabled>
+    </div>
     <button type="submit" class="btn btn-primary">Criar torneio</button>
 
 </form>
@@ -25,6 +29,7 @@
             <th scope="col">#</th>
             <th scope="col">Bimestre</th>
             <th scope="col">Premiação</th>
+            <th scope="col">Campeã</th>
             <th scope="col">Data de criação</th>
             <th scope="col">Hora de criação</th>
             <th scope="col">Ações</th>
@@ -36,6 +41,7 @@
             <th scope="row">{{t.id}}</th>
             <td>{{t.bimestre}}</td>
             <td>{{t.premiacao}}</td>
+            <td>{{t.campea}}</td>
             <td>{{t.data_criacao}}</td>
             <td>{{t.data_hora}}</td>
             <td>
