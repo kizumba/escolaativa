@@ -168,11 +168,41 @@ def sala_aula(id):
 
 @app.route('/disputas/<int:id>')
 def disputas(id):
-    torneio = Torneio.query.get(id)
-
+    torneio = db.session.get(Torneio, id)
+    comportamentos = Comportamento.query.all()
     equipes = torneio.disputa_equipes
 
-    return render_template('disputas.html', torneio=torneio, equipes=equipes)
+
+
+    return render_template('disputas.html', torneio=torneio, equipes=equipes, comportamentos=comportamentos)
+
+@app.route('/criar_equipe',methods=['POST'])
+def criar_equipe():
+    
+    if request.method == 'POST':
+        nome = request.form['nome']
+        lider = request.form['lider']
+        id_torneio = request.form['id_torneio']
+        id_turma = request.form['id_turma']
+
+        nova_equipe = Equipe(nome=nome, lider=lider, id_turma=id_turma)
+        print(nova_equipe)
+        if nova_equipe:
+            try:
+                db.session.add(nova_equipe)
+                db.session.commit()
+                
+                torneio = db.session.get(Torneio,id_torneio)
+                if torneio:
+                    torneio.disputa_equipes.append(nova_equipe)
+                    db.session.commit()
+                
+
+            except:
+                print("Deu erro na criação da equipe.")
+    
+    return redirect(url_for('disputas',id=id_torneio))
+    
 
 #=========================
 # REGISTRAR NOVO USUARIO =

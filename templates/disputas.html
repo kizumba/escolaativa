@@ -2,11 +2,28 @@
 
 {% block conteudo %}
 
-<h1>Torneio do {{torneio.bimestre}} bimestre</h1>
+<h1>Torneio do {{torneio.bimestre}}º bimestre da Turma {{torneio.id_turma}}</h1>
 <hr>
 <h2>Classificação</h2>
 <hr>
 <h2>Criar equipe</h2>
+<form method="post" action="{{url_for('criar_equipe')}}">
+<div class="mb-3">
+    <label class="form-label">Nome</label>
+    <input class="form-control" type="text" name="nome" required>
+</div>
+<div class="mb-3">
+    <label class="form-label">Líder</label>
+    <input class="form-control" type="text" name="lider" required>
+</div>
+
+<input type="hidden" name="id_turma" value="{{ torneio.id_turma }}">
+<input type="hidden" name="id_torneio" value="{{ torneio.id }}">
+
+<button type="submit" class="btn btn-primary">Criar Equipe</button>
+</form>
+<hr>
+<h2>Missões</h2>
 <hr>
 <h2>Equipes</h2>
 <table class="table">
@@ -16,6 +33,7 @@
             <th scope="col">Nome</th>
             <th scope="col">Líder</th>
             <th scope="col">Comportamentos</th>
+            <th scope="col">Pontos</th>
             <th scope="col">Ações</th>
         </tr>
     </thead>
@@ -25,18 +43,19 @@
             <th scope="row">{{t.id}}</th>
             <td>{{t.nome}}</td>
             <td>{{t.lider}}</td>
-            <td>    
-                {% for i in range(10) %}
-                <a href="" class="btn btn-success">Comport. {{i}}</a>
+            <td>
+                {% for c in comportamentos %}
+                <a href="" class="btn btn-success">{{c.nome}}</a>
                 {% endfor %}
             </td>
+            <td>0</td>
             <td>
-                <a href="#" class="btn btn-primary">E</a> - 
+                <a href="#" class="btn btn-primary">E</a> -
                 <a href="#" class="btn btn-danger"><del>X</del></a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-
+<a href="{{url_for('sala_aula', id=torneio.id_turma)}}" class="btn btn-primary">Voltar</a>
 {% endblock %}
