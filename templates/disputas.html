@@ -46,10 +46,14 @@
             <td>{{t.lider}}</td>
             <td>
                 {% for c in comportamentos %}
-                <a href="" class="btn btn-success">{{c.nome}}</a>
+                    {% if c.pontos < 0 %}
+                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=t.id, id_comportamento=c.id)}}" class="btn btn-danger">{{c.nome}}</a>
+                    {% else %}
+                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=t.id, id_comportamento=c.id)}}" class="btn btn-success">{{c.nome}}</a>
+                    {% endif %}
                 {% endfor %}
             </td>
-            <td>0</td>
+            <td>{{t.pontos}}</td>
             <td>
                 <a href="#" class="btn btn-primary">E</a> -
                 <a href="#" class="btn btn-danger"><del>X</del></a>

@@ -11,10 +11,6 @@ class TipoUsuario(db.Model):
 
     usuarios = db.relationship('Usuario', backref='tipo_usuario', lazy=True, cascade='all, delete-orphan')
 
-    # def __init__(self, nome, descricao):  
-    #     self.nome = nome
-    #     self.descricao = descricao
-
     def __repr__(self):
         return f'{self.nome}'
 
@@ -104,6 +100,7 @@ class Equipe(db.Model):
     id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     nome = db.Column(db.String(30))
     lider = db.Column(db.String(30))
+    pontos = db.Column(db.Integer, default=0)
 
     disputa_torneios = db.relationship('Torneio', secondary="disputam", back_populates="disputa_equipes")
 
@@ -118,26 +115,24 @@ class Equipe_Comportamento(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
-    id_equipe = db.Column(db.Integer, db.ForeignKey('equipes.id'))
-    id_comportamento = db.Column(db.Integer, db.ForeignKey('comportamentos.id'))
+    id_equipe = db.Column(db.Integer, db.ForeignKey('equipes.id',  ondelete='CASCADE'))
+    id_comportamento = db.Column(db.Integer, db.ForeignKey('comportamentos.id',  ondelete='CASCADE'))
 
-    data_criacao = db.Column(db.String(10))
-    data_hora = db.Column(db.String(8))
+    data_criacao = db.Column(db.Date)
+    data_hora = db.Column(db.Time)
 
     equipe = db.relationship('Equipe', backref=db.backref('equipe_comportamentos', lazy='dynamic'))
     comportamento = db.relationship('Comportamento', backref=db.backref('comportamento_equipes', lazy='dynamic'))
 
-    def __repr__(self):
-        return f'Equipe {self.equipe.nome} - Comportamento {self.comportamento.nome}'
 
 class Equipe_Missao(db.Model):
     __tablename__ = 'equipes_missoes'
 
-    id_equipe = db.Column(db.Integer, db.ForeignKey('equipes.id'), primary_key=True)
-    id_missao = db.Column(db.Integer, db.ForeignKey('missoes.id'), primary_key=True)
+    id_equipe = db.Column(db.Integer, db.ForeignKey('equipes.id', ondelete='CASCADE'), primary_key=True)
+    id_missao = db.Column(db.Integer, db.ForeignKey('missoes.id', ondelete='CASCADE'), primary_key=True)
 
-    data_criacao = db.Column(db.String(10))
-    data_hora = db.Column(db.String(8))
+    data_criacao = db.Column(db.Date)
+    data_hora = db.Column(db.Time)
 
     concluida = db.Column(db.Boolean, default = False)
 

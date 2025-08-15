@@ -43,19 +43,15 @@
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Torneios</a>
           </li> -->
-          <!-- <li class="nav-item">
-            <a class="nav-link" href="#">Comportamentos</a>
-          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('comportamentos')}}">Comportamentos</a>
+          </li>
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Atividades</a>
           </li> -->
           <!-- <li class="nav-item">
             <a class="nav-link" href="#">Usuários</a>
           </li> -->
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('teste')}}">Teste</a>
-          </li>
-
           {% endif %}
           {% if not current_user.is_authenticated %}
           <li class="nav-item">

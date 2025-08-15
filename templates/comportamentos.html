@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Comportamentos</h1>
+<hr>
+<h2>{{current_user.nome}}</h2>
+<hr>
+<h2>Cadastrar novo comportamento</h2>
+<form method="post" action="">
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" name="nome" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <input type="text" class="form-control" name="descricao" required>
+    </div>
+     <div class="mb-3">
+        <label class="form-label">Pontos</label>
+        <input type="number" class="form-control" name="pontos" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar novo comportamento</button>
+</form>
+<hr>
+<h2>Lista de comportamentos</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Pontos</th>
+            <th scope="col">Ativo</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for c in comportamentos %}
+        <tr>
+            <th scope="row">{{c.id}}</th>
+            <td>{{c.nome}}</td>
+            <td>{{c.descricao}}</td>
+            <td>{{c.pontos}}</td>
+            <td>{{c.ativo}}</td>
+            <td>
+                <a href="" class="btn btn-success">Desativar</a> -
+                <a href="" class="btn btn-primary">Editar</a> - 
+                <a href="" class="btn btn-danger">Apagar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
+{% endblock %}

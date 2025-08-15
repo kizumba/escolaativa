@@ -94,10 +94,22 @@ def turma_editar(id):
 def turma_apagar(id):
     turma = Turma.query.get(id)
 
+    torneios = Torneio.query.filter_by(id_turma=turma.id).all()
+                
+    
     if request.method == 'GET':
         return render_template('turma_apagar.html',turma=turma)
     
     elif request.method == 'POST':
+
+        for t in torneios:
+            for e in t.disputa_equipes:
+                if e:
+                    comportamentos = Equipe_Comportamento.query.filter_by(id_equipe=e.id).all()
+                    for c in comportamentos:
+                        db.session.delete(c)
+                        db.session.commit()
+
         db.session.delete(turma)
         db.session.commit()
         return redirect(url_for('turmas'))
@@ -172,9 +184,12 @@ def disputas(id):
     comportamentos = Comportamento.query.all()
     equipes = torneio.disputa_equipes
 
+    registros = []
 
+    for e in equipes:
+        registros.append(Equipe_Comportamento.query.get(e.id))
 
-    return render_template('disputas.html', torneio=torneio, equipes=equipes, comportamentos=comportamentos)
+    return render_template('disputas.html', torneio=torneio, equipes=equipes, comportamentos=comportamentos,registros=registros)
 
 @app.route('/criar_equipe',methods=['POST'])
 def criar_equipe():
@@ -203,6 +218,51 @@ def criar_equipe():
     
     return redirect(url_for('disputas',id=id_torneio))
     
+@app.route('/equipe_comportamento/<id_torneio>/<id_equipe>/<id_comportamento>')
+def equipe_comportamento(id_torneio, id_equipe, id_comportamento):
+    torneio = Torneio.query.get(id_torneio)
+    equipe = Equipe.query.get(id_equipe)
+    comportamento = Comportamento.query.get(id_comportamento)
+
+    data_criacao = date.today()
+    data_hora = datetime.now().time()
+    equipe.pontos += comportamento.pontos
+    print(equipe.pontos)
+    
+    try:
+        equipe_comportamento = Equipe_Comportamento(id_equipe=equipe.id, id_comportamento=comportamento.id, data_criacao=data_criacao, data_hora=data_hora)
+        print(equipe_comportamento)
+
+        db.session.add(equipe_comportamento)
+        db.session.commit()
+    except:
+        print("Deu errado")
+    
+    return redirect(url_for('disputas', id=id_torneio))
+
+#=================
+# COMPORTAMENTOS =
+#=================
+@app.route('/comportamentos', methods=['GET','POST'])
+def comportamentos():
+    comportamentos = Comportamento.query.all()
+
+    if request.method == 'GET':
+        return render_template('comportamentos.html', comportamentos=comportamentos)
+    else:
+        nome = request.form['nome']
+        descricao = request.form['descricao']
+        pontos = request.form['pontos']
+
+        try:
+            c = Comportamento(nome=nome, descricao=descricao, pontos=pontos)
+            db.session.add(c)
+            db.session.commit()
+        except:
+            print('Deu erro ao criar um novo comportamento')
+
+        print(f'{nome} -{descricao} - {pontos}')
+        return redirect(url_for('comportamentos'))
 
 #=========================
 # REGISTRAR NOVO USUARIO =
