@@ -1,10 +1,12 @@
-from datetime import datetime
+from datetime import *
 from flask import Flask, render_template, request, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from markupsafe import escape
 from db import db
 from models import *
 import hashlib
+
+from funcoes_bd import lista_equipes
 
 #=============================
 # CONFIGURAÇÕES DA APLICAÇÃO =
@@ -139,7 +141,41 @@ def tipo_usuario_editar(id):
 
         return redirect(url_for('tipos_usuarios'))
 
+#===============
+# SALA DE AULA =
+#===============
+@app.route('/sala_aula/<int:id>', methods=['GET','POST'])
+def sala_aula(id):
+    turma = Turma.query.get(id)
+    equipes = Equipe.query.filter_by(id_turma=turma.id)
+    torneios = Torneio.query.filter_by(id_turma=turma.id)
 
+    if request.method == 'GET':
+        return render_template('sala_aula.html', turma=turma, equipes=equipes, torneios=torneios)
+    elif request.method == 'POST':
+        bimestre = request.form['bimestre']
+        premiacao = request.form['premiacao']
+        data_criacao = date.today()
+        data_hora = datetime.now().time()
+        id_turma = turma.id
+
+        novo_torneio = Torneio(bimestre=bimestre, premiacao=premiacao, data_criacao=data_criacao, data_hora=data_hora, id_turma=id_turma)
+
+        db.session.add(novo_torneio)
+        db.session.commit()
+
+        return redirect(url_for('sala_aula', id=turma.id))
+
+@app.route('/disputas/<int:id>')
+def disputas(id):
+    torneio = Torneio.query.get(id)
+
+    equipes = torneio.disputa_equipes
+    for e in equipes:
+        print(e.nome)
+        print(e.lider)
+
+    return render_template('disputas.html', torneio=torneio, equipes=equipes)
 
 #=========================
 # REGISTRAR NOVO USUARIO =

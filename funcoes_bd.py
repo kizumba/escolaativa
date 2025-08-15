@@ -28,3 +28,5 @@ def novo_ensino(professor, turma):
 def consultar_ensino():
     ensinam = db.session.execute(db.select(ensina)).all()
     return ensinam
+
+lista_equipes = ('Hashtag', 'Underline', 'Web', 'Share', 'Byte')

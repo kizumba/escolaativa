@@ -57,7 +57,8 @@
             <td>{{turma.ano}}</td>
             <td>{{turma.grau}}{{turma.serie}}-{{turma.periodo}}-{{turma.ano}}</td>
             <td><a href="{{ url_for('turma_editar', id=turma.id) }}" class="btn btn-primary">Editar</a> - 
-                <a href="{{ url_for('turma_apagar', id=turma.id) }}" class="btn btn-danger">Apagar</a>
+                <a href="{{ url_for('turma_apagar', id=turma.id) }}" class="btn btn-danger">Apagar</a> -
+                <a href="{{url_for('sala_aula', id=turma.id)}}" class="btn btn-success">Sala de Aula</a>
             </td>
         </tr>
         {% endfor %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Sala de Aula da Turma #{{turma.id}}: {{turma.grau}}{{turma.serie}}-{{turma.periodo}}-{{turma.ano}}</h1>
+<hr>
+<h2>Criar novo torneio</h2>
+<form method="post" action="">
+    <div class="mb-3">
+        <label class="form-label">Bimestre</label>
+        <input class="form-control" type="text" name="bimestre" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Premiação</label>
+        <input class="form-control" type="text" name="premiacao" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Criar torneio</button>
+
+</form>
+<hr>
+<h2>Torneios</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Bimestre</th>
+            <th scope="col">Premiação</th>
+            <th scope="col">Data de criação</th>
+            <th scope="col">Hora de criação</th>
+            <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in torneios %}
+        <tr>
+            <th scope="row">{{t.id}}</th>
+            <td>{{t.bimestre}}</td>
+            <td>{{t.premiacao}}</td>
+            <td>{{t.data_criacao}}</td>
+            <td>{{t.data_hora}}</td>
+            <td>
+                <a href="{{url_for('disputas', id=t.id)}}" class="btn btn-success">Disputa</a> -
+                <a href="#" class="btn btn-primary">Editar</a> - 
+                <a href="#" class="btn btn-danger">Apagar</a> -
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

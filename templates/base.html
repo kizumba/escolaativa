@@ -24,11 +24,11 @@
           <li class="nav-item active">
             <a class="nav-link" href="{{url_for('index')}}">Home
               {% if current_user.is_authenticated %}
-              <span class="sr-only">({{current_user.nome}})</span>
+              <span class="sr-only">({{current_user.nome}} - {{current_user.tipo_usuario.nome}})</span>
               {% endif %}
             </a>
           </li>
-          {% if current_user.is_authenticated and current_user.id_tipo_usuario == 1 %}
+          {% if current_user.is_authenticated and current_user.tipo_usuario.nome == 'Administrador' %}
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('tipos_usuarios')}}">Tipos de Usuários</a>
           </li>
@@ -36,7 +36,7 @@
             <a class="nav-link" href="{{url_for('registrar')}}">Usuários</a>
           </li>
           {% endif %}
-          {% if current_user.is_authenticated and current_user.id_tipo_usuario == 2 %}
+          {% if current_user.is_authenticated and current_user.tipo_usuario.nome == 'Professor' %}
           <li class="nav-item">
             <a class="nav-link" href="{{url_for('turmas')}}">Turmas</a>
           </li>

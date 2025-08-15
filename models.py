@@ -87,7 +87,6 @@ class Torneio(db.Model):
     __tablename__ = 'torneios'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    # nome = db.Column(db.String(30))
     bimestre = db.Column(db.String(2))
     premiacao = db.Column(db.String(100))
     data_criacao = db.Column(db.Date)
@@ -112,15 +111,6 @@ class Equipe(db.Model):
 
     def __repr__(self):
         return f'Equipe: {self.nome}'
-
-# class Disciplina(db.Model):
-#     __tablename__ = 'disciplinas'
-
-#     id = db.Column(db.Integer, primary_key=True)
-#     nome = db.Column(db.String(30))
-
-#     def __repr__(self):
-#         return f'Disciplina {self.nome}'
 
 
 class Equipe_Comportamento(db.Model):
