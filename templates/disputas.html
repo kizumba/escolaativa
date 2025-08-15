@@ -6,7 +6,7 @@
 <hr>
 <h2>Classificação</h2>
 <hr>
-<h2>Criar equipe</h2>
+<h2>Criar equipe para o torneio</h2>
 <form method="post" action="{{url_for('criar_equipe')}}">
 <div class="mb-3">
     <label class="form-label">Nome</label>
@@ -16,6 +16,7 @@
     <label class="form-label">Líder</label>
     <input class="form-control" type="text" name="lider" required>
 </div>
+
 
 <input type="hidden" name="id_turma" value="{{ torneio.id_turma }}">
 <input type="hidden" name="id_torneio" value="{{ torneio.id }}">
