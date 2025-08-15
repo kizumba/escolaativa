@@ -8,5 +8,35 @@
 <hr>
 <h2>Criar equipe</h2>
 <hr>
-{{equipes}}
+<h2>Equipes</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Líder</th>
+            <th scope="col">Comportamentos</th>
+            <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in equipes %}
+        <tr>
+            <th scope="row">{{t.id}}</th>
+            <td>{{t.nome}}</td>
+            <td>{{t.lider}}</td>
+            <td>    
+                {% for i in range(10) %}
+                <a href="" class="btn btn-success">Comport. {{i}}</a>
+                {% endfor %}
+            </td>
+            <td>
+                <a href="#" class="btn btn-primary">E</a> - 
+                <a href="#" class="btn btn-danger"><del>X</del></a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 {% endblock %}

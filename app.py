@@ -171,9 +171,6 @@ def disputas(id):
     torneio = Torneio.query.get(id)
 
     equipes = torneio.disputa_equipes
-    for e in equipes:
-        print(e.nome)
-        print(e.lider)
 
     return render_template('disputas.html', torneio=torneio, equipes=equipes)
 
