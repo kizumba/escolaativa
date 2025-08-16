@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Usuários</h1>
+<hr>
+<h2>{{current_user.nome}}</h2>
+<hr>
+<h2>Editar usuário {{usuario.nome}}</h2>
+<form method="post" action="">
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" name="nome" value="{{usuario.nome}}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Telefone</label>
+        <input type="text" class="form-control" name="telefone" value="{{usuario.telefone}}" required>
+    </div>
+     <div class="mb-3">
+        <label class="form-label">E-mail</label>
+        <input type="text" class="form-control" name="email" value="{{usuario.email}}" required>
+    </div>
+    <div>
+        <label class="form-label">Senha</label>
+        <input type="text" class="form-control" name="senha" id="" value="" placeholder="Insira uma nova senha" required><br>
+    </div>
+    <div class="mb-3">
+        <fieldset>
+            Usuário ativado:<br>
+            <input type="radio" id="ativo" name="ativo" value="True" checked>
+            <label for="ativo">Ativar</label><br>
+
+            <input type="radio" id="desativo" name="ativo" value="False">
+            <label for="desativo">Desativar</label><br>
+        </fieldset>
+    </div>
+
+    <div>
+        <label class="form-label">Selecione qual o tipo de usuário</label>
+        <select class="custom-select form-control" id="inputGroupSelect02" name="tipo_usuario" required>
+        <option selected>{{usuario.tipo_usuario.nome}}</option>
+        {% for tipo_usuario in tipos_usuarios %}
+            <option value="{{tipo_usuario.id}}">{{tipo_usuario.nome}}</option>
+        {% endfor %}  
+        </select>
+    </div>
+    <br>
+
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+</form>
+
+<hr>
+<a href="{{url_for('registrar')}}" class="btn btn-primary">Voltar</a>
+{% endblock %}

@@ -21,11 +21,13 @@ app.secret_key = 'equipedev'
 app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
 db.init_app(app)
 
+# Carregar usuário logado
 @lm.user_loader
 def user_louder(id):
     usuario = db.session.query(Usuario).filter_by(id=id).first()
     return usuario
 
+# Criptografia de senha
 def hash(txt):
     hash_obj = hashlib.sha256(txt.encode('utf-8'))
     return hash_obj.hexdigest()
@@ -202,7 +204,7 @@ def criar_equipe():
         id_turma = request.form['id_turma']
 
         nova_equipe = Equipe(nome=nome, lider=lider, id_turma=id_turma)
-        print(nova_equipe)
+
         if nova_equipe:
             try:
                 db.session.add(nova_equipe)
@@ -228,12 +230,12 @@ def equipe_comportamento(id_torneio, id_equipe, id_comportamento):
 
     data_criacao = date.today()
     data_hora = datetime.now().time()
-    equipe.pontos += comportamento.pontos
-    print(equipe.pontos)
+    
+    if comportamento.ativo:
+        equipe.pontos += comportamento.pontos
     
     try:
         equipe_comportamento = Equipe_Comportamento(id_equipe=equipe.id, id_comportamento=comportamento.id, data_criacao=data_criacao, data_hora=data_hora)
-        print(equipe_comportamento)
 
         db.session.add(equipe_comportamento)
         db.session.commit()
@@ -345,6 +347,33 @@ def registrar():
 
         return redirect(url_for('index'))
 
+# Usuário editar
+@app.route('/usuario_editar/<int:id>', methods=['GET','POST'])
+def usuario_editar(id):
+    usuario = Usuario.query.get(id)
+    tipos_usuarios = TipoUsuario.query.all()
+
+    if request.method == 'GET':
+        return render_template('usuario_editar.html', usuario=usuario, tipos_usuarios=tipos_usuarios)
+    else:
+        try:
+            usuario.nome = request.form['nome']
+            usuario.email = request.form['email']
+            usuario.telefone = request.form['telefone']
+            usuario.senha = hash(request.form['senha'])
+            
+            if request.form['ativo'] == 'True':
+                usuario.ativo = True
+            else:
+                usuario.ativo = False
+
+            usuario.id_tipo_usuario = request.form['tipo_usuario']
+
+            db.session.add(usuario)
+            db.session.commit()
+        except:
+            print(f'Não foi possível editar o usuário {usuario.nome}')
+        return redirect(url_for('registrar'))
 
 @app.route('/login',methods=['GET','POST'])
 def login():

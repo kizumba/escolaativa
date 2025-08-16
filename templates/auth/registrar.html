@@ -26,5 +26,37 @@
     <hr>
     <input type="submit" class="btn btn-primary" value="Cadastrar Usuário">
   </form>
-
+<hr>
+<h2>Lista de usuários</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Telefone</th>
+            <th scope="col">Email</th>
+            <th scope="col">Ativo</th>
+            <th scope="col">Tipo de Usuário</th>
+            <th scope="col">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in usuarios %}
+        {% if not u.nome == 'Mestre'%}
+        <tr>
+            <th scope="row">{{u.id}}</th>
+            <td>{{u.nome}}</td>
+            <td>{{u.telefone}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.ativo}}</td>
+            <td>{{u.tipo_usuario.nome}}</td>
+            <td>
+                <a href="{{url_for('usuario_editar', id=u.id)}}" class="btn btn-primary">Editar</a> - 
+                <a href="" class="btn btn-danger">Apagar</a>
+            </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
