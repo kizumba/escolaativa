@@ -1,5 +1,18 @@
 # Escola Ativa
-Equipe Dev formada por Donavan, Leo, Jhonny e André
+Equipe Dev formada por Donavan, Leo, Jhonny e André.
+
+## Passos
+- Logar com mestre@email.com senha 123
+- Criar Tipo de Usuário -> Professor
+- Criar Usuário -> professor1@email.com senha 123
+- Sair
+- Logar com professor1@email.com senha 123
+- Criar Comportamentos
+- Criar Turma
+- Criar Torneio
+- Criar Equipes
+- Pontuar equipes com comportamentos
+
 # Pré-Requisitos
 * Ter Python instalado
 * instalar requirements.txt
