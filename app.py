@@ -138,7 +138,6 @@ def tipos_usuarios():
 @app.route('/tipo_usuario_editar/<int:id>',methods=['GET','POST'])
 def tipo_usuario_editar(id):
     tipo_usuario = TipoUsuario.query.get(id)
-    print(tipo_usuario.id)
 
     if request.method == 'GET':
         return render_template("tipo_usuario_editar.html",tipo_usuario=tipo_usuario)
@@ -178,6 +177,7 @@ def sala_aula(id):
 
         return redirect(url_for('sala_aula', id=turma.id))
 
+# DISPUTA
 @app.route('/disputas/<int:id>')
 def disputas(id):
     torneio = db.session.get(Torneio, id)
@@ -191,6 +191,7 @@ def disputas(id):
 
     return render_template('disputas.html', torneio=torneio, equipes=equipes, comportamentos=comportamentos,registros=registros)
 
+# CRIAR EQUIPE
 @app.route('/criar_equipe',methods=['POST'])
 def criar_equipe():
     
@@ -217,7 +218,8 @@ def criar_equipe():
                 print("Deu erro na criação da equipe.")
     
     return redirect(url_for('disputas',id=id_torneio))
-    
+
+# EQUIPE COMPORTAMENTO
 @app.route('/equipe_comportamento/<id_torneio>/<id_equipe>/<id_comportamento>')
 def equipe_comportamento(id_torneio, id_equipe, id_comportamento):
     torneio = Torneio.query.get(id_torneio)
@@ -263,6 +265,59 @@ def comportamentos():
 
         print(f'{nome} -{descricao} - {pontos}')
         return redirect(url_for('comportamentos'))
+
+# COMPORTAMENTO EDITAR
+@app.route('/comportamento_editar/<int:id>',methods=['GET','POST'])
+def comportamento_editar(id):
+    c = Comportamento.query.get(id)
+    if c:
+        print(c.nome)
+    if request.method == 'GET':
+        return render_template('comportamento_editar.html', c=c)
+    else:
+        nome = request.form['nome']
+        descricao = request.form['descricao']
+        pontos = request.form['pontos']
+
+        c.nome = nome
+        c.descricao = descricao
+        c.pontos = pontos
+
+        try:
+            db.session.add(c)
+            db.session.commit()
+        except:
+            print(f"Erro ao editar {c.nome}.")
+
+        return redirect(url_for('comportamentos'))
+
+# COMPORTAMENTO APAGAR
+@app.route('/comportamento_apagar/<int:id>', methods=['GET','POST'])
+def comportamento_apagar(id):
+    c = Comportamento.query.get(id)
+
+    if request.method == 'GET':
+        return render_template('comportamento_apagar.html', c=c)
+    else:
+        try:
+            db.session.delete(c)
+            db.session.commit()
+        except:
+            print(f'Não foi possível apagar o comportamento {c.nome}')
+
+        return redirect(url_for('comportamentos'))
+
+@app.route('/comportamento_desativar/<int:id>')
+def comportamento_desativar(id):
+    c = Comportamento.query.get(id)
+
+    try:    
+        c.ativo = not c.ativo
+        db.session.add(c)
+        db.session.commit()
+    except:
+        print(f'Erro ao alterar o valor de {c.ativo} em {c.nome}')
+    return redirect(url_for('comportamentos'))
 
 #=========================
 # REGISTRAR NOVO USUARIO =

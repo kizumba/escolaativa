@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Comportamentos</h1>
+<hr>
+<h2>{{current_user.nome}}</h2>
+<hr>
+<h2>Editar comportamento {{c.nome}}</h2>
+<form method="post" action="">
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" name="nome" value="{{c.nome}}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Descrição</label>
+        <input type="text" class="form-control" name="descricao" value="{{c.descricao}}" required>
+    </div>
+     <div class="mb-3">
+        <label class="form-label">Pontos</label>
+        <input type="number" class="form-control" name="pontos" value="{{c.pontos}}" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+</form>
+
+<hr>
+<a href="{{url_for('turmas')}}" class="btn btn-primary">Voltar</a>
+{% endblock %}

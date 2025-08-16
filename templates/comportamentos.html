@@ -41,11 +41,18 @@
             <td>{{c.nome}}</td>
             <td>{{c.descricao}}</td>
             <td>{{c.pontos}}</td>
-            <td>{{c.ativo}}</td>
             <td>
-                <a href="" class="btn btn-success">Desativar</a> -
-                <a href="" class="btn btn-primary">Editar</a> - 
-                <a href="" class="btn btn-danger">Apagar</a>
+                <!-- {{c.ativo}} -->
+                {% if c.ativo %}
+                <a href="{{url_for('comportamento_desativar',id=c.id)}}" class="btn btn-success">Sim</a>
+                {% else %}
+                <a href="{{url_for('comportamento_desativar',id=c.id)}}" class="btn btn-warning">Não</a>
+                {% endif %}
+
+            </td>
+            <td>
+                <a href="{{url_for('comportamento_editar', id=c.id)}}" class="btn btn-primary">Editar</a> - 
+                <a href="{{url_for('comportamento_apagar', id=c.id)}}" class="btn btn-danger">Apagar</a>
             </td>
         </tr>
         {% endfor %}
