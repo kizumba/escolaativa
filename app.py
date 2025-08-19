@@ -137,6 +137,7 @@ def tipos_usuarios():
 
         return redirect(url_for('tipos_usuarios'))
 
+# Editar usuário
 @app.route('/tipo_usuario_editar/<int:id>',methods=['GET','POST'])
 def tipo_usuario_editar(id):
     tipo_usuario = TipoUsuario.query.get(id)
@@ -185,6 +186,10 @@ def disputas(id):
     torneio = db.session.get(Torneio, id)
     comportamentos = Comportamento.query.all()
     equipes = torneio.disputa_equipes
+
+    print(equipes)
+
+    equipes = sorted(equipes, key=lambda equipe: equipe.pontos, reverse=True)
 
     registros = []
 
@@ -309,6 +314,7 @@ def comportamento_apagar(id):
 
         return redirect(url_for('comportamentos'))
 
+# Comportamento Desativar
 @app.route('/comportamento_desativar/<int:id>')
 def comportamento_desativar(id):
     c = Comportamento.query.get(id)
@@ -320,6 +326,26 @@ def comportamento_desativar(id):
     except:
         print(f'Erro ao alterar o valor de {c.ativo} em {c.nome}')
     return redirect(url_for('comportamentos'))
+
+#============
+# FINALIZAR =
+#============
+@app.route('/finalizar/<int:id>', methods=['GET', 'POST'])
+def finalizar(id):
+    torneio = db.session.get(Torneio, id)
+    equipes = torneio.disputa_equipes
+
+    equipes_ordem = sorted(equipes, key=lambda equipe: equipe.pontos, reverse=True)
+
+    try:
+        torneio.campea = equipes_ordem[0].nome
+        db.session.add(torneio)
+        db.session.commit()
+    except:
+        print("Erro ao tentar definir a equipe campeã")
+
+    if request.method == 'GET':
+        return render_template('finalizar.html',torneio=torneio, equipes_ordem=equipes_ordem)
 
 #=========================
 # REGISTRAR NOVO USUARIO =
@@ -375,6 +401,9 @@ def usuario_editar(id):
             print(f'Não foi possível editar o usuário {usuario.nome}')
         return redirect(url_for('registrar'))
 
+#========
+# LOGIN =
+#========
 @app.route('/login',methods=['GET','POST'])
 def login():
     if request.method == 'GET':
@@ -390,20 +419,21 @@ def login():
         login_user(user)
         return redirect(url_for('index'))
 
-
+#=========
+# LOGOUT =
+#=========
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
+#========
+# SOBRE =
+#========
 @app.route('/about')
 def about():
     return render_template('about.html')
-
-@app.route('/teste')
-@login_required
-def teste():
 
     return render_template('auth/teste.html')
 

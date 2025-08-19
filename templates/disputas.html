@@ -2,7 +2,11 @@
 
 {% block conteudo %}
 
-<h1>Torneio do {{torneio.bimestre}}º bimestre da Turma {{torneio.id_turma}}</h1>
+<h1>Torneio do {{torneio.bimestre}}º bimestre da Turma {{torneio.id_turma}} 
+    <a href="{{url_for('finalizar',id=torneio.id)}}" class="btn btn-warning">
+        <b>Finalizar Torneio</b>
+    </a>
+</h1>
 <hr>
 <h2>Classificação</h2>
 <hr>

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h1>Finalizar Torneio #{{torneio.id}}</h1>
+<hr>
+<p>{{torneio}}</p>
+<hr>
+<h2>Equipe campeã: <b><i>{{equipes_ordem[0].nome}} </i></b> com {{equipes_ordem[0].pontos}} pontos</h2>
+<hr>
+<h2>Classificação</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Líder</th>
+            <th scope="col">Pontos</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for e in equipes_ordem %}
+        <tr>
+            <th scope="row">{{e.id}}</th>
+            <td>{{e.nome}}</td>
+            <td>{{e.lider}}</td>
+            <td>{{e.pontos}}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{url_for('sala_aula', id=torneio.id_turma)}}" class="btn btn-primary">Voltar</a>
+{% endblock %}
