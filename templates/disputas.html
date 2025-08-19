@@ -8,8 +8,6 @@
     </a>
 </h1>
 <hr>
-<h2>Classificação</h2>
-<hr>
 <h2>Criar equipe para o torneio</h2>
 <form method="post" action="{{url_for('criar_equipe')}}">
 <div class="mb-3">
@@ -61,8 +59,8 @@
             </td>
             <td>{{t.pontos}}</td>
             <td>
-                <a href="#" class="btn btn-primary">E</a> -
-                <a href="#" class="btn btn-danger">X</a>
+                <a href="#" class="btn btn-primary"><del>Editar</del></a> -
+                <a href="#" class="btn btn-danger"><del>Apagar</del></a>
             </td>
         </tr>
         {% endfor %}
