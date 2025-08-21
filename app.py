@@ -186,17 +186,18 @@ def disputas(id):
     torneio = db.session.get(Torneio, id)
     comportamentos = Comportamento.query.all()
     equipes = torneio.disputa_equipes
+    missoes = Missao.query.all()
 
     print(equipes)
 
-    equipes = sorted(equipes, key=lambda equipe: equipe.pontos, reverse=True)
+    # equipes = sorted(equipes, key=lambda equipe: equipe.pontos, reverse=True)
 
     registros = []
 
     for e in equipes:
         registros.append(Equipe_Comportamento.query.get(e.id))
 
-    return render_template('disputas.html', torneio=torneio, equipes=equipes, comportamentos=comportamentos,registros=registros)
+    return render_template('disputas.html', torneio=torneio, equipes=equipes, comportamentos=comportamentos,registros=registros, missoes=missoes)
 
 # CRIAR EQUIPE
 @app.route('/criar_equipe',methods=['POST'])
@@ -326,6 +327,106 @@ def comportamento_desativar(id):
     except:
         print(f'Erro ao alterar o valor de {c.ativo} em {c.nome}')
     return redirect(url_for('comportamentos'))
+
+#==========
+# MISSÕES =
+#==========
+@app.route('/missoes', methods=['GET', 'POST'])
+def missoes():
+    missoes = Missao.query.all()
+
+    if request.method == 'GET':
+        return render_template('missoes.html', missoes=missoes)
+    
+    else:
+        nome = request.form['nome']
+        descricao = request.form['descricao']
+        pontos = request.form['pontos']
+
+        try:
+            m = Missao(nome=nome, descricao=descricao, pontos=pontos)
+            db.session.add(m)
+            db.session.commit()
+        except:
+            print('Deu erro ao criar uma nova missão')
+
+        print(f'{nome} -{descricao} - {pontos}')
+        return redirect(url_for('missoes'))
+
+# Missão editar
+@app.route('/missao_editar/<int:id>',methods=['GET','POST'])
+def missao_editar(id):
+    m = Missao.query.get(id)
+    if m:
+        print(m.nome)
+    if request.method == 'GET':
+        return render_template('missao_editar.html', m=m)
+    else:
+        nome = request.form['nome']
+        descricao = request.form['descricao']
+        pontos = request.form['pontos']
+
+        m.nome = nome
+        m.descricao = descricao
+        m.pontos = pontos
+
+        try:
+            db.session.add(m)
+            db.session.commit()
+        except:
+            print(f"Erro ao editar {m.nome}.")
+
+        return redirect(url_for('missoes'))
+
+# Missão apagar
+@app.route('/missao_apagar/<int:id>', methods=['GET','POST'])
+def missao_apagar(id):
+    m = Missao.query.get(id)
+
+    if request.method == 'GET':
+        return render_template('missao_apagar.html', m=m)
+    else:
+        try:
+            db.session.delete(m)
+            db.session.commit()
+        except:
+            print(f'Não foi possível apagar a missão {m.nome}')
+
+        return redirect(url_for('missoes')) 
+
+# Adicionar Missão
+@app.route('/missao_adicionar/<int:id>', methods=['GET','POST'])
+def missao_adicionar(id):
+
+    torneio = Torneio.query.get(id)
+    missoes = Missao.query.all()
+
+    if request.method == 'GET':
+        return render_template('missao_adicionar.html', torneio=torneio, missoes=missoes)
+
+# MISSAO EQUIPE
+@app.route('/missao_equipes/<int:t_id>/<int:m_id>')
+def missao_equipes(t_id, m_id):
+    torneio = Torneio.query.get(t_id)
+    missao = Missao.query.get(m_id)
+
+    equipes = torneio.disputa_equipes
+    data_criacao = date.today()
+    data_hora = datetime.now().time()
+    
+    for e in equipes:
+        e_m = Equipe_Missao.query.filter_by(id_equipe=e.id, id_missao=missao.id).first()
+        if not e_m:
+            e_m = Equipe_Missao(id_equipe=e.id, id_missao=missao.id, data_criacao=data_criacao,data_hora=data_hora)
+            try:
+                db.session.add(e_m)
+                db.session.commit()
+                print(f'Missão {missao.nome} adicionado a equipe {e.nome}')
+            except:
+                print(f'Não foi possível adicionar a missão {missao.nome} na equipe {e.nome}')
+
+    
+    return redirect(url_for('disputas', id=torneio.id))
 
 #============
 # FINALIZAR =

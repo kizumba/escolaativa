@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Missões</h1>
+<hr>
+<h2>{{current_user.nome}}</h2>
+<hr>
+<h2>Lista de missões</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Pontos</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in missoes %}
+        <tr>
+            <th scope="row">{{m.id}}</th>
+            <td>{{m.nome}}</td>
+            <td>{{m.descricao}}</td>
+            <td>{{m.pontos}}</td>
+            <td>
+                <a href="{{url_for('missao_equipes', t_id=torneio.id, m_id=m.id)}}" class="btn btn-primary">Adicionar</a> - 
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<hr>
+<a href="{{url_for('disputas', id=torneio.id)}}" class="btn btn-primary">Voltar</a>
+{% endblock %}

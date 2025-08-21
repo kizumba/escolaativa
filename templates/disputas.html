@@ -26,9 +26,7 @@
 <button type="submit" class="btn btn-primary">Criar Equipe</button>
 </form>
 <hr>
-<h2>Missões</h2>
-<hr>
-<h2>Equipes</h2>
+<h2>Equipes | <a href="{{url_for('missao_adicionar', id=torneio.id)}}" class="btn btn-primary">Adicionar Missão</a></h2>
 <table class="table">
     <thead>
         <tr>
@@ -59,6 +57,7 @@
             </td>
             <td>{{t.pontos}}</td>
             <td>
+                <a href="#" class="btn btn-primary"><del>Missões</del></a> -
                 <a href="#" class="btn btn-primary"><del>Editar</del></a> -
                 <a href="#" class="btn btn-danger"><del>Apagar</del></a>
             </td>
