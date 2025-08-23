@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+<h1>Equipe: {{e.nome}}</h1>
+<hr>
+<h2>Concluir missão</h2>
+<hr>
+{{e_m}}
+
+<hr>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Pontos</th>
+            <th scope="col">Concluída</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for m in e_m %}
+        <tr>
+            <th scope="row">{{m.missao.id}}</th>
+            <td>{{m.missao.nome}}</td>
+            <td>{{m.missao.descricao}}</td>
+            <td>{{m.missao.pontos}}</td>
+            <!-- <td>{{m.concluida}}</td> -->
+            <td>
+                {% if m.concluida %}
+                <a href="{{url_for('equipe_missao_concluir', e_id=m.equipe.id, m_id=m.missao.id)}}" class="btn btn-success">Sim</a>
+                {% else %}
+                <a href="{{url_for('equipe_missao_concluir', e_id=m.equipe.id, m_id=m.missao.id)}}" class="btn btn-warning">Não</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<a href="{{url_for('disputas', id=e.disputa_torneios[0].id)}}" class="btn btn-primary">Voltar</a>
+
+{% endblock %}

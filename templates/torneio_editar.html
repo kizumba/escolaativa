@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block conteudo %}
+
+<h1>Torneio #{{t.id}} | Bimestre: {{t.bimestre}}º</h1>
+<hr>
+<h2>Editar torneio</h2>
+<form method="post" action="">
+    <div class="mb-3">
+        <label class="form-label">Bimestre</label>
+        <input class="form-control" type="text" name="bimestre" value="{{t.bimestre}}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Premiação</label>
+        <input class="form-control" type="text" name="premiacao" value="{{t.premiacao}}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Equipe Campeã</label>
+        <input class="form-control" type="text" name="campea" value="{{t.campea}}">
+    </div>
+    <button type="submit" class="btn btn-primary">Atualizar</button>
+
+</form>
+<hr>
+<a href="{{url_for('sala_aula', id=t.id_turma)}}" class="btn btn-primary">Voltar</a>
+{% endblock %}

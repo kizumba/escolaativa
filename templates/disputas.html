@@ -4,7 +4,7 @@
 
 <h1>Torneio do {{torneio.bimestre}}º bimestre da Turma {{torneio.id_turma}} 
     <a href="{{url_for('finalizar',id=torneio.id)}}" class="btn btn-warning">
-        <b>Finalizar Torneio</b>
+        <b>Classificação</b>
     </a>
 </h1>
 <hr>
@@ -39,25 +39,25 @@
         </tr>
     </thead>
     <tbody>
-        {% for t in equipes %}
+        {% for e in equipes %}
         <tr>
-            <th scope="row">{{t.id}}</th>
-            <td>{{t.nome}}</td>
-            <td>{{t.lider}}</td>
+            <th scope="row">{{e.id}}</th>
+            <td>{{e.nome}}</td>
+            <td>{{e.lider}}</td>
             <td>
                 {% for c in comportamentos %}
                 {% if c.ativo %}
                     {% if c.pontos < 0 %}
-                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=t.id, id_comportamento=c.id)}}" class="btn btn-danger">{{c.nome}}</a>
+                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=e.id, id_comportamento=c.id)}}" class="btn btn-danger">{{c.nome}}</a>
                     {% else %}
-                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=t.id, id_comportamento=c.id)}}" class="btn btn-success">{{c.nome}}</a>
+                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=e.id, id_comportamento=c.id)}}" class="btn btn-success">{{c.nome}}</a>
                     {% endif %}
                 {% endif %}
                 {% endfor %}
             </td>
-            <td>{{t.pontos}}</td>
+            <td>{{e.pontos}}</td>
             <td>
-                <a href="#" class="btn btn-primary"><del>Missões</del></a> -
+                <a href="{{url_for('equipe_missoes', id=e.id)}}" class="btn btn-primary">Missões</a> -
                 <a href="#" class="btn btn-primary"><del>Editar</del></a> -
                 <a href="#" class="btn btn-danger"><del>Apagar</del></a>
             </td>

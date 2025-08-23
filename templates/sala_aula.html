@@ -43,7 +43,7 @@
             <td>
                 <a href="{{url_for('disputas', id=t.id)}}" class="btn btn-success">Disputar</a> -
                 <!-- <a href="{{url_for('finalizar', id=t.id)}}" class="btn btn-warning">Finalizar</a> - -->
-                <a href="#" class="btn btn-primary"><del>Editar</del></a> - 
+                <a href="{{url_for('torneio_editar', id=t.id)}}" class="btn btn-primary">Editar</a> - 
                 <a href="#" class="btn btn-danger"><del>Apagar</del></a>
             </td>
         </tr>

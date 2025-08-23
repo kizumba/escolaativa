@@ -428,6 +428,48 @@ def missao_equipes(t_id, m_id):
     
     return redirect(url_for('disputas', id=torneio.id))
 
+# EQUIPE MISSÕES
+@app.route('/equipe_missoes/<int:id>')
+def equipe_missoes(id):
+    e = Equipe.query.get(id)
+    e_m = Equipe_Missao.query.filter_by(id_equipe = id).all()
+
+    return render_template('equipe_missoes.html',e=e, e_m=e_m)
+
+    # return redirect(url_for('disputas',id=e.disputa_torneios[0].id))
+
+# MISSAO CONCLUIR
+@app.route('/equipe_missao_concluir/<int:e_id>/<int:m_id>')
+def equipe_missao_concluir(e_id, m_id):
+    
+    e = Equipe.query.get(e_id)
+    print(f'EQUIPE: {e.nome}')
+
+    m = Missao.query.get(m_id)
+    print(f'MISSAO: {m.nome}')
+
+
+    e_m = Equipe_Missao.query.filter_by(id_equipe=e.id, id_missao=m_id).first()
+    print(f'EQUIPE MISSAO {e_m}')
+
+    try:    
+        e_m.concluida = not e_m.concluida
+        db.session.add(e_m)
+        db.session.commit()
+
+        if e_m.concluida:
+            e.pontos += m.pontos
+            db.session.add(e)
+            db.session.commit()
+        else:
+            e.pontos -= m.pontos
+            db.session.add(e)
+            db.session.commit()
+    except:
+        print(f'Erro ao alterar o valor de {e_m.concluida} em {e_m.equipe.nome}')
+
+    return redirect(url_for('equipe_missoes', id=e.id))
+
 #============
 # FINALIZAR =
 #============
@@ -447,6 +489,31 @@ def finalizar(id):
 
     if request.method == 'GET':
         return render_template('finalizar.html',torneio=torneio, equipes_ordem=equipes_ordem)
+
+# TORNEIO EDITAR
+@app.route('/torneio_editar/<int:id>', methods=['GET','POST'])
+def torneio_editar(id):
+    torneio = Torneio.query.get(id)
+
+    if request.method == 'GET':
+        return render_template('torneio_editar.html', t=torneio)
+    
+    else:
+        bimestre = request.form['bimestre']
+        premiacao = request.form['premiacao']
+        campea = request.form['campea']
+        
+        torneio.bimestre = bimestre
+        torneio.premiacao = premiacao
+        torneio.campea = campea
+
+        try:
+            db.session.add(torneio)
+            db.session.commit()
+        except:
+            print(f'Não foi possível atualizar a equipe {torneio.id}')
+
+        return redirect(url_for('sala_aula',id=torneio.id_turma))
 
 #=========================
 # REGISTRAR NOVO USUARIO =
