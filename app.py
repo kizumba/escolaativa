@@ -426,7 +426,7 @@ def missao_equipes(t_id, m_id):
                 print(f'Não foi possível adicionar a missão {missao.nome} na equipe {e.nome}')
 
     
-    return redirect(url_for('disputas', id=torneio.id))
+    return redirect(url_for('missao_adicionar', id=torneio.id))
 
 # EQUIPE MISSÕES
 @app.route('/equipe_missoes/<int:id>')
