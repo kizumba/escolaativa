@@ -3,10 +3,35 @@
 {% block conteudo %}
 
 <h1>Comportamentos</h1>
-<hr>
-<h2>{{current_user.nome}}</h2>
-<hr>
-<h2>Cadastrar novo comportamento</h2>
+<hr class="border border-primary border-2 opacity-75">
+<h2>Professor: {{current_user.nome}}</h2>
+<hr class="border border-danger border-2 opacity-50">
+
+<div class="dropdown">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+        data-bs-auto-close="outside">
+        Criar Novo Comportamento
+    </button>
+    <form class="dropdown-menu p-4" method="post" action="">
+
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input type="text" class="form-control" name="nome" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Descrição</label>
+            <input type="text" class="form-control" name="descricao" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Pontos</label>
+            <input type="number" class="form-control" name="pontos" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Criar</button>
+    </form>
+</div>
+
+<!-- <h2>Cadastrar novo comportamento</h2>
 <form method="post" action="">
     <div class="mb-3">
         <label class="form-label">Nome</label>
@@ -16,13 +41,14 @@
         <label class="form-label">Descrição</label>
         <input type="text" class="form-control" name="descricao" required>
     </div>
-     <div class="mb-3">
+    <div class="mb-3">
         <label class="form-label">Pontos</label>
         <input type="number" class="form-control" name="pontos" required>
     </div>
     <button type="submit" class="btn btn-primary">Criar novo comportamento</button>
-</form>
-<hr>
+</form> -->
+
+<hr class="border border-danger border-2 opacity-50">
 <h2>Lista de comportamentos</h2>
 <table class="table">
     <thead>
@@ -50,13 +76,13 @@
                 {% endif %}
             </td>
             <td>
-                <a href="{{url_for('comportamento_editar', id=c.id)}}" class="btn btn-primary">Editar</a> - 
+                <a href="{{url_for('comportamento_editar', id=c.id)}}" class="btn btn-primary">Editar</a> -
                 <a href="{{url_for('comportamento_apagar', id=c.id)}}" class="btn btn-danger">Apagar</a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
-<hr>
+<hr class="border border-primary border-2 opacity-50">
 <a href="{{url_for('turmas')}}" class="btn btn-primary">Voltar</a>
 {% endblock %}

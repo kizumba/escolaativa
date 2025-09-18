@@ -3,9 +3,30 @@
 {% block conteudo %}
 
 <h1>Sala de Aula da Turma #{{turma.id}}: {{turma.grau}}{{turma.serie}}-{{turma.periodo}}-{{turma.ano}}</h1>
-<hr>
-<h2>Criar novo torneio</h2>
-<form method="post" action="">
+<hr class="border border-primary border-2 opacity-75">
+
+<!-- <h2>Criar novo torneio</h2> -->
+<div class="dropdown">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+        data-bs-auto-close="outside">
+        Criar Novo Torneio
+    </button>
+    <form class="dropdown-menu p-4" method="post" action="">
+
+        <div class="mb-3">
+            <label class="form-label">Bimestre</label>
+            <input class="form-control" type="text" name="bimestre" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Premiação</label>
+            <input class="form-control" type="text" name="premiacao" required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Criar</button>
+    </form>
+</div>
+
+<!-- <form method="post" action="">
     <div class="mb-3">
         <label class="form-label">Bimestre</label>
         <input class="form-control" type="text" name="bimestre" required>
@@ -16,8 +37,9 @@
     </div>
     <button type="submit" class="btn btn-primary">Criar torneio</button>
 
-</form>
-<hr>
+</form> -->
+<hr class="border border-danger border-2 opacity-50">
+
 <h2>Torneios</h2>
 <table class="table">
     <thead>
@@ -43,12 +65,14 @@
             <td>
                 <a href="{{url_for('disputas', id=t.id)}}" class="btn btn-success">Disputar</a> -
                 <!-- <a href="{{url_for('finalizar', id=t.id)}}" class="btn btn-warning">Finalizar</a> - -->
-                <a href="{{url_for('torneio_editar', id=t.id)}}" class="btn btn-primary">Editar</a> - 
+                <a href="{{url_for('torneio_editar', id=t.id)}}" class="btn btn-primary">Editar</a> -
                 <a href="#" class="btn btn-danger"><del>Apagar</del></a>
             </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<hr class="border border-primary border-2 opacity-50">
+
 <a href="{{url_for('turmas')}}" class="btn btn-primary">Voltar</a>
 {% endblock %}

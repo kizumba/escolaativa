@@ -2,30 +2,55 @@
 
 {% block conteudo %}
 
-<h1>Torneio do {{torneio.bimestre}}º bimestre da Turma {{torneio.id_turma}} 
+<h1>Torneio do {{torneio.bimestre}}º bimestre da Turma {{torneio.id_turma}}
+    {% if equipes %}
     <a href="{{url_for('finalizar',id=torneio.id)}}" class="btn btn-warning">
         <b>Classificação</b>
     </a>
+    {% endif %}
+
 </h1>
-<hr>
-<h2>Criar equipe para o torneio</h2>
+<hr class="border border-primary border-2 opacity-75">
+<div class="dropdown">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+        data-bs-auto-close="outside">
+        Criar Nova Equipe
+    </button>
+    <form class="dropdown-menu p-4" method="post" action="{{url_for('criar_equipe')}}">
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input class="form-control" type="text" name="nome" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Líder</label>
+            <input class="form-control" type="text" name="lider" required>
+        </div>
+
+        <input type="hidden" name="id_turma" value="{{ torneio.id_turma }}">
+        <input type="hidden" name="id_torneio" value="{{ torneio.id }}">
+
+        <button type="submit" class="btn btn-success">Criar</button>
+    </form>
+</div>
+<hr class="border border-danger border-2 opacity-50">
+<!-- <h2>Criar equipe para o torneio</h2>
 <form method="post" action="{{url_for('criar_equipe')}}">
-<div class="mb-3">
-    <label class="form-label">Nome</label>
-    <input class="form-control" type="text" name="nome" required>
-</div>
-<div class="mb-3">
-    <label class="form-label">Líder</label>
-    <input class="form-control" type="text" name="lider" required>
-</div>
+    <div class="mb-3">
+        <label class="form-label">Nome</label>
+        <input class="form-control" type="text" name="nome" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Líder</label>
+        <input class="form-control" type="text" name="lider" required>
+    </div>
 
 
-<input type="hidden" name="id_turma" value="{{ torneio.id_turma }}">
-<input type="hidden" name="id_torneio" value="{{ torneio.id }}">
+    <input type="hidden" name="id_turma" value="{{ torneio.id_turma }}">
+    <input type="hidden" name="id_torneio" value="{{ torneio.id }}">
 
-<button type="submit" class="btn btn-primary">Criar Equipe</button>
-</form>
-<hr>
+    <button type="submit" class="btn btn-primary">Criar Equipe</button>
+</form> -->
+
 <h2>Equipes | <a href="{{url_for('missao_adicionar', id=torneio.id)}}" class="btn btn-primary">Adicionar Missão</a></h2>
 <table class="table">
     <thead>
@@ -47,13 +72,15 @@
             <td>
                 {% for c in comportamentos %}
                 {% if c.ativo %}
-                    {% if c.pontos < 0 %}
-                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=e.id, id_comportamento=c.id)}}" class="btn btn-danger">{{c.nome}}</a>
+                {% if c.pontos < 0 %} <a
+                    href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=e.id, id_comportamento=c.id)}}"
+                    class="btn btn-danger">{{c.nome}}</a>
                     {% else %}
-                        <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=e.id, id_comportamento=c.id)}}" class="btn btn-success">{{c.nome}}</a>
+                    <a href="{{url_for('equipe_comportamento', id_torneio=torneio.id, id_equipe=e.id, id_comportamento=c.id)}}"
+                        class="btn btn-success">{{c.nome}}</a>
                     {% endif %}
-                {% endif %}
-                {% endfor %}
+                    {% endif %}
+                    {% endfor %}
             </td>
             <td>{{e.pontos}}</td>
             <td>
@@ -65,5 +92,6 @@
         {% endfor %}
     </tbody>
 </table>
+<hr class="border border-primary border-2 opacity-50">
 <a href="{{url_for('sala_aula', id=torneio.id_turma)}}" class="btn btn-primary">Voltar</a>
 {% endblock %}

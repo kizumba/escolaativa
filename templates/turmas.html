@@ -4,7 +4,7 @@
 
 <h1>Turmas</h1>
 <hr class="border border-primary border-2 opacity-75">
-<h2>{{current_user.nome}}</h2>
+<h2>Professor: {{current_user.nome}}</h2>
 <hr class="border border-danger border-2 opacity-50">
 <div class="dropdown">
     <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
@@ -107,5 +107,5 @@
         {% endfor %}
     </tbody>
 </table>
-<hr>
+<hr class="border border-primary border-2 opacity-50">
 {% endblock %}
