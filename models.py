@@ -15,7 +15,6 @@ class TipoUsuario(db.Model):
         return f'{self.nome}'
 
 
-
 class Usuario(db.Model, UserMixin):
     __tablename__ = 'usuarios'
 
@@ -136,6 +135,7 @@ class Equipe_Missao(db.Model):
     data_hora = db.Column(db.Time)
 
     concluida = db.Column(db.Boolean, default = False)
+    #adicionada = db.Column(db.Boolean, default=False)
 
     equipe = db.relationship('Equipe', backref=db.backref('equipe_missoes', lazy='dynamic'))
     missao = db.relationship('Missao', backref=db.backref('missao_equipes', lazy='dynamic'))

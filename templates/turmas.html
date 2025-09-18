@@ -3,19 +3,60 @@
 {% block conteudo %}
 
 <h1>Turmas</h1>
-<hr>
+<hr class="border border-primary border-2 opacity-75">
 <h2>{{current_user.nome}}</h2>
+<hr class="border border-danger border-2 opacity-50">
+<div class="dropdown">
+    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
+        data-bs-auto-close="outside">
+        Cadastrar Nova Turma
+    </button>
+    <form class="dropdown-menu p-4" method="post" action="turmas">
+        <div class="mb-3">
+            <label class="form-label">Grau</label>
+            <input type="number" min="1" max="9" maxlength="1" step="1" pattern="\d*" name="grau" class="form-control"
+                required placeholder="Somente Nº de 1 a 9">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Série</label>
+            <input type="text" class="form-control" id="letraUnica" maxlength="1" pattern="[A-Z]"
+                oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')" name="serie" required
+                placeholder="Insira uma letra de A a Z">
+        </div>
+        <div class="mb-3">
+            <fieldset>
+                Selecione o período:<br>
+
+                <input type="radio" id="manha" name="periodo" value="Manhã" checked>
+                <label for="manha">Manhã</label><br>
+
+                <input type="radio" id="tarde" name="periodo" value="Tarde">
+                <label for="tarde">Tarde</label><br>
+
+                <input type="radio" id="noite" name="periodo" value="Noite">
+                <label for="noite">Noite</label>
+            </fieldset>
+        </div>
+
+
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+    </form>
+</div>
+
+<!-- <hr>
 <hr>
-<h2>Cadastrar nova turma</h2>
+
 <form method="post" action="turmas">
     <div class="mb-3">
         <label class="form-label">Grau</label>
-        <input type="number" min="1" max="9" maxlength="1" step="1" pattern="\d*" name="grau" class="form-control" required placeholder="Insira um número de 1 a 9">
+        <input type="number" min="1" max="9" maxlength="1" step="1" pattern="\d*" name="grau" class="form-control"
+            required placeholder="Insira um número de 1 a 9">
     </div>
     <div class="mb-3">
         <label class="form-label">Série</label>
         <input type="text" class="form-control" id="letraUnica" maxlength="1" pattern="[A-Z]"
-            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')" name="serie" required placeholder="Insira uma letra de A a Z">
+            oninput="this.value = this.value.toUpperCase().replace(/[^A-Z]/g, '')" name="serie" required
+            placeholder="Insira uma letra de A a Z">
     </div>
     <div class="mb-3">
         <fieldset>
@@ -32,8 +73,9 @@
         </fieldset>
     </div>
     <button type="submit" class="btn btn-primary">Criar nova turma</button>
-</form>
-<hr>
+</form> -->
+
+<hr class="border border-danger border-2 opacity-50">
 <h2>Lista de turmas do Professor: {{current_user.nome}}</h2>
 <table class="table">
     <thead>
@@ -58,7 +100,7 @@
             <td>{{turma.grau}}{{turma.serie}}-{{turma.periodo}}-{{turma.ano}}</td>
             <td>
                 <a href="{{url_for('sala_aula', id=turma.id)}}" class="btn btn-success">Sala de Aula</a> -
-                <a href="{{ url_for('turma_editar', id=turma.id) }}" class="btn btn-primary">Editar</a> - 
+                <a href="{{ url_for('turma_editar', id=turma.id) }}" class="btn btn-primary">Editar</a> -
                 <a href="{{ url_for('turma_apagar', id=turma.id) }}" class="btn btn-danger">Apagar</a>
             </td>
         </tr>
